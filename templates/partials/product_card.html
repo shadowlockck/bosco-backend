@@ -1,0 +1,11 @@
+<article class="product-card">
+    <div class="product-card-top">
+        <span class="product-icon">▦</span>
+        <span class="stock {% if product.quantity == 0 %}stock-empty{% endif %}">
+            {% if product.quantity %}{{ product.quantity }} шт.{% else %}Немає в наявності{% endif %}
+        </span>
+    </div>
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.description|default:"Опис товару ще не додано." }}</p>
+    <strong>{{ product.price }} грн</strong>
+</article>

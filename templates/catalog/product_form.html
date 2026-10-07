@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Новий товар | Bosco склад{% endblock %}
+
+{% block content %}
+<section class="form-card">
+    <p class="eyebrow">Каталог</p>
+    <h1>Додати товар</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-field">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <div class="form-actions">
+            <a href="{% url 'catalog:product_list' %}">Скасувати</a>
+            <button class="button" type="submit">Зберегти товар</button>
+        </div>
+    </form>
+</section>
+{% endblock %}
