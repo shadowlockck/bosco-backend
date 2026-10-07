@@ -43,6 +43,20 @@ CSRF middleware залишається увімкненим у `MIDDLEWARE`.
 у `templatetags/` сервер потрібно перезапустити, оскільки Django не завжди
 підхоплює нові бібліотеки під час автоматичного перезавантаження.
 
+## Експеримент 6: статичні файли та `DEBUG`
+
+CSS лежить у `catalog/static/catalog/css/style.css` і підключається в
+`base.html` через `{% load static %}` та
+`{% static 'catalog/css/style.css' %}`. Шлях `/static/...` не записаний у
+шаблоні вручну.
+
+При `DEBUG=True` Django роздає знайдені статичні файли під час розробки.
+Якщо встановити `DEBUG=False`, URL у HTML залишається, але вбудований
+development-сервер Django більше не обслуговує static-файли: для production
+потрібно виконати `collectstatic` і налаштувати вебсервер або middleware для
+роздачі `STATIC_ROOT`. Після експерименту значення за замовчуванням повернуто
+до `DEBUG=True`.
+
 ## Висновок
 
 Шаблони зручно розділяти на базовий layout і partials, static-файли варто

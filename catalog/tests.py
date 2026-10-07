@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.staticfiles import finders
 
 from .models import Product
 
@@ -16,6 +17,11 @@ class ProductTests(TestCase):
     def test_products_page_uses_empty_state(self):
         response = self.client.get("/products/")
         self.assertContains(response, "Товарів немає.")
+
+    def test_catalog_stylesheet_is_discoverable_and_loaded(self):
+        response = self.client.get("/products/")
+        self.assertIsNotNone(finders.find("catalog/css/style.css"))
+        self.assertContains(response, '/static/catalog/css/style.css')
 
     def test_custom_filter_and_tag_render_product_data(self):
         Product.objects.create(name="Кава", price="125.50", quantity=3)
