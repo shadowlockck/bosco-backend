@@ -57,6 +57,15 @@ development-сервер Django більше не обслуговує static-ф
 роздачі `STATIC_ROOT`. Після експерименту значення за замовчуванням повернуто
 до `DEBUG=True`.
 
+## Експеримент 7: CSRF-токен
+
+У DevTools на сторінці форми видно приховане поле
+`csrfmiddlewaretoken`, а після GET-запиту Django також встановлює cookie
+`csrftoken`. Якщо прибрати `{% csrf_token %}` із форми та надіслати POST,
+`CsrfViewMiddleware` повертає HTTP 403 з повідомленням `CSRF verification
+failed`. Після повернення тегу форма успішно проходить перевірку, створює
+товар і перенаправляє на `/products/`.
+
 ## Висновок
 
 Шаблони зручно розділяти на базовий layout і partials, static-файли варто

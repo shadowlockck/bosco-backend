@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.urls import reverse
 from django.contrib.staticfiles import finders
 
@@ -56,5 +56,23 @@ class ProductTests(TestCase):
         self.assertContains(response, "Товар успішно додано.")
         response = self.client.get("/products/")
         self.assertNotContains(response, "Товар успішно додано.")
+
+    def test_form_contains_csrf_token(self):
+        response = self.client.get("/products/new/")
+        self.assertContains(response, 'name="csrfmiddlewaretoken"')
+
+    def test_post_without_csrf_token_returns_403(self):
+        csrf_client = Client(enforce_csrf_checks=True)
+        response = csrf_client.post(
+            "/products/new/",
+            {
+                "name": "Кава",
+                "description": "Зернова",
+                "price": "125.50",
+                "quantity": "4",
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "CSRF verification failed", status_code=403)
 
 # Create your tests here.
