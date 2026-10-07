@@ -17,6 +17,16 @@ class ProductTests(TestCase):
         response = self.client.get("/products/")
         self.assertContains(response, "Товарів немає.")
 
+    def test_custom_filter_and_tag_render_product_data(self):
+        Product.objects.create(name="Кава", price="125.50", quantity=3)
+        Product.objects.create(name="Чай", price="80.00", quantity=2)
+
+        response = self.client.get("/products/")
+
+        self.assertContains(response, "125.50 грн")
+        self.assertContains(response, "Товарів у базі: 2")
+        self.assertContains(response, "2 товари")
+
     def test_product_name_is_autoescaped(self):
         Product.objects.create(name="<script>alert(1)</script>", price="10.00")
         response = self.client.get("/products/")

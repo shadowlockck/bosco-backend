@@ -10,7 +10,7 @@ def uah(value):
 
 @register.simple_tag
 def product_count():
-    from catalog.models import Product
+    from ..models import Product
 
     return Product.objects.count()
 
