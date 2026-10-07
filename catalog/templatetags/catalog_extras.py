@@ -4,6 +4,18 @@ register = template.Library()
 
 
 @register.filter
+def uah(value):
+    return f"{value} грн"
+
+
+@register.simple_tag
+def product_count():
+    from catalog.models import Product
+
+    return Product.objects.count()
+
+
+@register.filter
 def ukrainian_plural(value, forms):
     forms = forms.split(",")
     number = abs(int(value)) % 100

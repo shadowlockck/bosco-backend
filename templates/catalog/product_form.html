@@ -8,14 +8,25 @@
     <h1>Додати товар</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form %}
-            <div class="form-field">
-                {{ field.label_tag }}
-                {{ field }}
-                {{ field.errors }}
-            </div>
-        {% endfor %}
+        <div class="form-field">
+            <label for="id_name">Назва</label>
+            <input id="id_name" name="name" value="{{ form_data.name }}" required>
+            {% if errors.name %}<span class="field-error">{{ errors.name }}</span>{% endif %}
+        </div>
+        <div class="form-field">
+            <label for="id_description">Опис</label>
+            <textarea id="id_description" name="description">{{ form_data.description }}</textarea>
+        </div>
+        <div class="form-field">
+            <label for="id_price">Ціна</label>
+            <input id="id_price" name="price" type="number" min="0" step="0.01" value="{{ form_data.price }}" required>
+            {% if errors.price %}<span class="field-error">{{ errors.price }}</span>{% endif %}
+        </div>
+        <div class="form-field">
+            <label for="id_quantity">Кількість</label>
+            <input id="id_quantity" name="quantity" type="number" min="0" value="{{ form_data.quantity }}" required>
+            {% if errors.quantity %}<span class="field-error">{{ errors.quantity }}</span>{% endif %}
+        </div>
         <div class="form-actions">
             <a href="{% url 'catalog:product_list' %}">Скасувати</a>
             <button class="button" type="submit">Зберегти товар</button>

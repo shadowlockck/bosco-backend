@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load catalog_extras %}
+
+{% block title %}Товари | Bosco склад{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Інвентаризація</p>
+        <h1>Каталог товарів</h1>
+    </div>
+    <span class="badge">{% product_count %} {{ products|length|ukrainian_plural:"товар,товари,товарів" }}</span>
+</section>
+<div class="table-wrap">
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Назва</th>
+                <th>Опис</th>
+                <th>Ціна</th>
+                <th>Залишок</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><strong>{{ product.name }}</strong></td>
+                    <td>{{ product.description|default:"—" }}</td>
+                    <td>{{ product.price|uah }}</td>
+                    <td>{{ product.quantity }} шт.</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="empty-row">Товарів немає.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
